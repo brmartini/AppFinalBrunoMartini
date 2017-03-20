@@ -1,5 +1,6 @@
 package fiab.mob.com.appfinalbrunomartini;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +24,7 @@ public class SplashScreen extends AppCompatActivity {
 
     private static final String TAG = "ERRO" ;
     private final int SPLASH_DISPLAY_LENGTH = 3500;
+
 
     Animation animacao;
     private ImageView ivImagem;
@@ -57,7 +59,12 @@ public class SplashScreen extends AppCompatActivity {
                 }else{
 
                     User user = response.body();
-                        Log.i(TAG,String.format("%s", user.usuario));
+                        Log.i("RETROFIT USUARIO",String.format("%s", user.getUsuario()));
+                        Log.i("RETROFIT SENHA",String.format("%s", user.getSenha()));
+                    salvarUsuario(user);
+
+
+
                 }
             }
 
@@ -82,6 +89,12 @@ public class SplashScreen extends AppCompatActivity {
             }
         }, SPLASH_DISPLAY_LENGTH);
 
+    }
+
+    public void salvarUsuario(User user){
+
+        UserDAO userDAO= new UserDAO();
+        userDAO.insert(user);
     }
 
 

@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 /**
  * Created by doido on 20/03/2017.
@@ -36,11 +37,22 @@ public class LoginActivity extends AppCompatActivity {
 
         Boolean continuarLogado = chkConectado.isChecked();
 
-        if(usuario.equals("admin") && senha.equals("123")){
+        int userFound = 0;
+        User u= new User();
+        u.setUsuario(usuario);
+        u.setSenha(senha);
+
+        UserDAO userDAO = new UserDAO();
+        userFound = userDAO.searchUser(u);
+
+        if(userFound != 0){
 
             salvarPreferencias(usuario,continuarLogado);
             abrirTela();
 
+        }else{
+
+            Toast.makeText(this, "Usuario/Senha incorretos", Toast.LENGTH_LONG).show();
         }
 
 
@@ -48,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
     private void abrirTela(){
 
         startActivity(new Intent(this,MainActivity.class));
-        finish();
+
     }
 
     private void checkConectado(){

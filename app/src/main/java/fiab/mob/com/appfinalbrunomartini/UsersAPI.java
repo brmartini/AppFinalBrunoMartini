@@ -14,6 +14,5 @@ public interface UsersAPI {
     @GET("usuario")
     Call<User> getUser();
 
-    @GET("senha")
-    Call<User> getPassword();
+
 }

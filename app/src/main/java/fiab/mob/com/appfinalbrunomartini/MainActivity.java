@@ -1,8 +1,13 @@
 package fiab.mob.com.appfinalbrunomartini;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,14 +17,48 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private List<Product> products = new ArrayList<>();
+    private RecyclerView rv;
+    private ProductsAdapter mAdapter;
+    ProductsFragment productFragment;
+    aboutFragment aboutfragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        rv = (RecyclerView) findViewById(R.id.rvProducts);
+        mAdapter = new ProductsAdapter(products);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        rv.setLayoutManager(mLayoutManager);
+        rv.setItemAnimator(new DefaultItemAnimator());
+        rv.addItemDecoration(new Divider(this, LinearLayoutManager.VERTICAL));
+        rv.setAdapter(mAdapter);
+
+        rv.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), rv, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Product product = products.get(position);
+                Toast.makeText(getApplicationContext(), product.getProduct(), Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+        productsFake();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -79,23 +118,40 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        FragmentManager fManager = getSupportFragmentManager();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_cadastro) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            //startActivity(new Intent(this,ProductsRegister.class));
+            productFragment = new ProductsFragment();
 
-        } else if (id == R.id.nav_slideshow) {
+            //fManager.beginTransaction().remove(R.id.content_main).commit();
+            fManager.beginTransaction().replace(R.id.content_main, productFragment, productFragment.getTag()).commit();
 
-        } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_sobre) {
+            aboutfragment = new aboutFragment();
+            fManager.beginTransaction().replace(R.id.content_main, aboutfragment, aboutfragment.getTag()).commit();
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void productsFake(){
+        Product product;
+        product = new Product("Escova","Escova de Cabelo", "12,90");
+        products.add(product);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private void LoadProducts(){
+
+        ProductDAO productDAO;
+        productDAO = new ProductDAO();
+
+        productDAO.searchProducts();
     }
 }
