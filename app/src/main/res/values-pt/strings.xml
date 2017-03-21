@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AppFinalBrunoMartini</string>
+
+    <string name="navigation_drawer_open">Abrir Menu de Navegação</string>
+    <string name="navigation_drawer_close">Fechar menu de Navegação</string>
+
+    <string name="action_settings">Configurações</string>
+    <string name="user_hint">Usuario</string>
+    <string name="userPassword_hint">Senha</string>
+    <string name="user_keep_login">Continuar Conectado</string>
+    <string name="signin">Fazer Login</string>
+    <string name="developerName">Desenvolvedor: Bruno Martini</string>
+    <string name="appVersion">Versao: 1</string>
+    <string name="productDescription">Descricao do Produto</string>
+    <string name="productName">Nome do Produto</string>
+    <string name="Save">Salvar</string>
+    <string name="insert_produtcs">Cadastrar Produtos</string>
+    <string name="about">Sobre</string>
+    <string name="products_list">Lista de Produtos</string>
+    <string name="delete">Deletar</string>
+</resources>

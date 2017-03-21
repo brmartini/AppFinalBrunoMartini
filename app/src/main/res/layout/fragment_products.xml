@@ -9,18 +9,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/edtProduct"
-        android:hint="NomedoProduto"/>
+        android:hint="@string/productName"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/edtDesc"
-        android:hint="DescricaodoProduto"/>
+        android:hint="@string/productDescription"/>
 
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Salvar"
+        android:text="@string/Save"
         android:id="@+id/btnInsert"
         />
 

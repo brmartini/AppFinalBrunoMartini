@@ -16,26 +16,26 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Usuario"
+            android:hint="@string/user_hint"
             android:id="@+id/edtUsuario"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Senha"
+            android:hint="@string/userPassword_hint"
             android:id="@+id/edtSenha"/>
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Continuar Conectado"
+            android:text="@string/user_keep_login"
             android:layout_gravity="center"
             android:id="@+id/chkConectado"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="FAZER LOGIN"
+            android:text="@string/signin"
             android:layout_gravity="center"
             android:onClick="logar"
            />
