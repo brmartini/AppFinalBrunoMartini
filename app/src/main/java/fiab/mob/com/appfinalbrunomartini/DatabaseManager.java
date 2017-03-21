@@ -11,8 +11,6 @@ public class DatabaseManager {
 
     private Integer mOpenCounter = 0;
 
-
-
     private static DatabaseManager instance;
 
     private static SQLiteOpenHelper mDatabaseHelper;
@@ -33,8 +31,6 @@ public class DatabaseManager {
 
     }
 
-
-
     public static synchronized DatabaseManager getInstance() {
 
         if (instance == null) {
@@ -44,9 +40,6 @@ public class DatabaseManager {
                     " is not initialized, call initializeInstance(..) method first.");
 
         }
-
-
-
         return instance;
 
     }

@@ -3,6 +3,10 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_Lista"
+            android:icon="@drawable/ic_card_travel_black_24dp"
+            android:title="Lista de Produtos" />
+        <item
             android:id="@+id/nav_cadastro"
             android:icon="@drawable/ic_card_travel_black_24dp"
             android:title="Cadastrar Produtos" />

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.facebook.stetho.Stetho;
 
@@ -19,8 +20,6 @@ public class UserDAO {
 
         db = DatabaseManager.getInstance().openDatabase(true);
     }
-
-
 
     public static String createTable(){
 
@@ -45,8 +44,11 @@ public class UserDAO {
     public int searchUser(User user){
 
         int i = 0;
+        //Log.i("USER",user.getUsuario() + user.getSenha());
+
         Cursor c = db.query(User.NOME_TABELA, new String[]{user.USUARIO,user.SENHA}, user.USUARIO + "= ? AND " + user.SENHA + "= ?" ,
                 new String[]{user.getUsuario(),user.getSenha()},null, null,null,null);
+
         c.moveToFirst();
         i = c.getCount();
 

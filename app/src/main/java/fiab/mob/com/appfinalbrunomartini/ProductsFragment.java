@@ -4,15 +4,15 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import static fiab.mob.com.appfinalbrunomartini.R.id.edtDesc;
-import static fiab.mob.com.appfinalbrunomartini.R.id.edtPrice;
-import static fiab.mob.com.appfinalbrunomartini.R.id.edtProduct;
+
 
 
 /**
@@ -30,9 +30,9 @@ public class ProductsFragment extends Fragment{
     private static final String ARG_PARAM2 = "param2";
     EditText edtProd;
     EditText edtDesc;
-    EditText edtPrice;
+
     Button btnInsert;
-    Context context;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -73,29 +73,35 @@ public class ProductsFragment extends Fragment{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_products, container, false);
         edtProd = (EditText) v.findViewById(R.id.edtProduct);
         edtDesc = (EditText) v.findViewById(R.id.edtDesc);
-        edtPrice = (EditText) v.findViewById(R.id.edtPrice);
         btnInsert = (Button) v.findViewById(R.id.btnInsert);
-
-
-
 
         btnInsert.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                ProductDAO productDAO = new ProductDAO();
-                Product product = new Product();
+                ProductDAO prodDAO = new ProductDAO();
+                Product prod = new Product();
 
-                product.setProduct(edtProd.getText().toString());
-                product.setDescription(edtDesc.getText().toString());
-                product.setPrice(edtPrice.getText().toString());
+                prod.setProduct(edtProd.getText().toString());
+                prod.setDescription(edtDesc.getText().toString());
 
-                productDAO.insert(product);
+
+                prodDAO.insert(prod);
+
+                //View v = inflater.inflate(R.layout.content_main,container,false);
+
+                ProductListFragment productListFragmentFragment = new ProductListFragment();
+
+                FragmentManager manager = ((AppCompatActivity)view.getContext()).getSupportFragmentManager();
+                manager
+                        .beginTransaction()
+                        .replace(R.id.content_main,productListFragmentFragment, productListFragmentFragment.getTag())
+                        .commit();
             }
         });
 
@@ -107,19 +113,9 @@ public class ProductsFragment extends Fragment{
 
 
 
-    public void InsertProduct(View v){
-
-        ProductDAO productDAO = new ProductDAO();
-        Product product = new Product();
-
-        product.setProduct(edtProd.getText().toString());
-        product.setDescription(edtDesc.getText().toString());
-        product.setPrice(edtPrice.getText().toString());
-
-        productDAO.insert(product);
 
 
-    }
+
 
 
 

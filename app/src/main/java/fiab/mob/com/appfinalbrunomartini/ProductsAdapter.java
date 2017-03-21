@@ -1,10 +1,15 @@
 package fiab.mob.com.appfinalbrunomartini;
 
+import android.content.Context;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -13,32 +18,52 @@ import java.util.List;
  */
 
 public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ProductViewHolder> {
+    Context adapterContext;
 
-    //Lista de filmes que serão mostrados na lista
+
+
     private List<Product> products;
 
-    public ProductsAdapter(List<Product> products) {
+    public ProductsAdapter(List<Product> products, Context productListFragment) {
         this.products = products;
+        this.adapterContext = productListFragment;
     }
 
-    //O design pattern chamado ViewHolder que irá segurar as informações da view.
-    //Aqui fazemos o bind dos atributos com os campos do nosso layout que representara
-    //as linhas
+
     public class ProductViewHolder extends RecyclerView.ViewHolder {
         public TextView tvProd, tvDesc, tvPrice;
+        public Button btnDelete;
+        public Context context;
 
         public ProductViewHolder(View view) {
             super(view);
             tvProd = (TextView) view.findViewById(R.id.tvProd);
             tvDesc = (TextView) view.findViewById(R.id.tvDesc);
             tvPrice = (TextView) view.findViewById(R.id.tvPrice);
+            btnDelete = (Button) view.findViewById(R.id.btnDelete);
+
+            btnDelete.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    ProductDAO productDAO = new ProductDAO();
+                    Product product = new Product();
+                    product.setProduct(tvProd.getText().toString());
+                    productDAO.DeleteProducts(product);
+                    ProductListFragment productListFragmentFragment = new ProductListFragment();
+
+                    FragmentManager manager = ((AppCompatActivity)view.getContext()).getSupportFragmentManager();
+                    manager
+                            .beginTransaction()
+                            .replace(R.id.content_main,productListFragmentFragment, productListFragmentFragment.getTag())
+                            .commit();
+                }
+            });
+
+
         }
     }
 
-    // Aqui criamos o nosso ViewHolder, observe que nesse método
-    // informamos qual o layout que devera ser utilizado
-    // Ou seja podemos trabalhar com layouts diferentes de acordo
-    // com uma determinada condição por exemplo
+
     @Override
     public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -47,17 +72,20 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         return new ProductViewHolder(itemView);
     }
 
-    //Adicionamos os valores dos objetos na view
+
     @Override
     public void onBindViewHolder(ProductViewHolder holder, int position) {
+
         Product product = products.get(position);
         holder.tvProd.setText(product.getProduct());
         holder.tvDesc.setText(product.getDescription());
-        holder.tvPrice.setText(product.getPrice());
+        holder.context = adapterContext;
+
+
 
     }
 
-    //Total de itens na nossa lista
+
     @Override
     public int getItemCount() {
         return products.size();

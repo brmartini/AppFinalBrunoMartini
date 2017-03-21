@@ -11,22 +11,30 @@ public class Product {
     public final static String ID = "_id";
     public final static String PRODUTO = "produto";
     public final static String DESCRICAO = "descricao";
-    public final static String PRECO = "preco";
 
 
+    private long id;
     private String product;
     private String description;
-    private String price;
 
-    public Product(String product, String description, String price) {
+    public Product(long id, String product, String description) {
+        this.id = id;
         this.product = product;
         this.description = description;
-        this.price = price;
     }
+
 
     public Product(){
 
 
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public void setProduct(String product) {
@@ -37,17 +45,11 @@ public class Product {
         this.description = description;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
-    }
 
     public String getDescription() {
         return description;
     }
 
-    public String getPrice() {
-        return price;
-    }
 
     public String getProduct() {
         return product;

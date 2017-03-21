@@ -24,6 +24,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+
     private List<Product> products = new ArrayList<>();
     private RecyclerView rv;
     private ProductsAdapter mAdapter;
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        rv = (RecyclerView) findViewById(R.id.rvProducts);
+        /*rv = (RecyclerView) findViewById(R.id.rvProducts);
         mAdapter = new ProductsAdapter(products);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity
         }));
 
         productsFake();
+        //LoadProducts();*/
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -133,6 +136,11 @@ public class MainActivity extends AppCompatActivity
             aboutfragment = new aboutFragment();
             fManager.beginTransaction().replace(R.id.content_main, aboutfragment, aboutfragment.getTag()).commit();
 
+        } else if (id == R.id.nav_Lista){
+
+            ProductListFragment productListFragment = new ProductListFragment();
+            fManager.beginTransaction().replace(R.id.content_main, productListFragment, productListFragment.getTag()).commit();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -140,18 +148,18 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void productsFake(){
+    /*private void productsFake(){
         Product product;
-        product = new Product("Escova","Escova de Cabelo", "12,90");
+        product = new Product("Escova","Escova de Cabelo");
         products.add(product);
         mAdapter.notifyDataSetChanged();
-    }
+    }*/
 
     private void LoadProducts(){
 
-        ProductDAO productDAO;
-        productDAO = new ProductDAO();
+        ProductDAO productDAO =new ProductDAO();
 
-        productDAO.searchProducts();
+
+        products = productDAO.searchProducts();
     }
 }

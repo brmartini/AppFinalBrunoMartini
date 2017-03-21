@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
     private void abrirTela(){
 
         startActivity(new Intent(this,MainActivity.class));
-
+        finish();
     }
 
     private void checkConectado(){

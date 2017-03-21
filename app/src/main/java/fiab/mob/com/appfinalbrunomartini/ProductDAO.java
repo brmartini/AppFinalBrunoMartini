@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.facebook.stetho.Stetho;
 
@@ -18,54 +19,70 @@ public class ProductDAO {
 
     private SQLiteDatabase db;
 
+
     public ProductDAO(){
 
         db = DatabaseManager.getInstance().openDatabase(true);
     }
 
 
-
     public static String createTable(){
 
-        return "CREATE TABLE " + User.NOME_TABELA + " ( " + Product.ID + " integer primary key autoincrement, " +
-                Product.PRODUTO + " text, " + Product.DESCRICAO + " text" + Product.PRECO +" text);";
+        return "CREATE TABLE " + Product.NOME_TABELA + " ( " + Product.ID + " integer primary key autoincrement, " +
+                Product.PRODUTO + " text, " + Product.DESCRICAO + " text);";
     }
 
 
 
     public void insert(Product product){
 
-        db = DatabaseManager.getInstance().openDatabase(true);
+
         ContentValues values = new ContentValues();
 
         values.put("produto", product.getProduct());
         values.put("descricao", product.getDescription());
-        values.put("preco", product.getPrice());
 
-        db.insert(product.NOME_TABELA, null, values);
+
+        db.insert(Product.NOME_TABELA, null, values);
+        DatabaseManager.getInstance().closeDatabase();
+    }
+
+    public void UpdateProducts(Product product){
+        ContentValues cv = new ContentValues();
+        cv.put(product.PRODUTO, product.getProduct());
+        db.update(product.NOME_TABELA,cv , product.ID + " = " + product.getId() ,null );
+    }
+
+    public void DeleteProducts(Product product){
+
+        db.delete(product.NOME_TABELA, product.PRODUTO + " = '" + product.getProduct() + "'",null);
         DatabaseManager.getInstance().closeDatabase();
     }
 
     public List<Product> searchProducts(){
 
-        List<Product> products = new ArrayList<>();
+        List<Product> productsList = new ArrayList<>();
 
         Cursor cursor;
-
+        db = DatabaseManager.getInstance().openDatabase(true);
         cursor = db.query(Product.NOME_TABELA, null, null, null, null, null, null, null);
-
+        Log.i("CURSOR",Integer.toString(cursor.getCount()));
         if (cursor != null) {
             if(cursor.moveToFirst()){
                 do {
                     Product product = new Product();
+                    product.setId(cursor.getInt(cursor.getColumnIndex(Product.ID)));
                     product.setProduct(cursor.getString(cursor.getColumnIndex(Product.PRODUTO)));
+                    //Log.i("PRODUTO",String.format("%s", product.getProduct()));
                     product.setDescription(cursor.getString(cursor.getColumnIndex(Product.DESCRICAO)));
-                    product.setPrice(cursor.getString(cursor.getColumnIndex(Product.PRECO)));
-                    products.add(product);
+                    //Log.i("PRODUTO",String.format("%s", product.getDescription()));
+                    productsList.add(product);
                 } while(cursor.moveToNext());
             }
         }
-
-        return products;
+        DatabaseManager.getInstance().closeDatabase();
+        return productsList;
     }
+
+
 }

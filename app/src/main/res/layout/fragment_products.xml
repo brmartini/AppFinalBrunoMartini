@@ -15,18 +15,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/edtDesc"
         android:hint="DescricaodoProduto"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/edtPrice"
-        android:hint="Preco"/>
+
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Salvar"
         android:id="@+id/btnInsert"
-        android:onClick="InsertProduct"/>
+        />
 
 
 </LinearLayout>
